@@ -3,10 +3,11 @@ using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 using Sitecore.Diagnostics;
 using Sitecore.Globalization;
+using Sitecore.Pipelines.Save;
 using Sitecore.Web;
 using System;
 
-namespace Sitecore.Pipelines.Save
+namespace Sitecore.Support.Pipelines.Save
 {
   /// <summary>
   /// Processor for saving data.
@@ -49,7 +50,8 @@ namespace Sitecore.Pipelines.Save
                 {
                   if (field.TypeKey == "rich text" && Settings.HtmlEditor.RemoveScripts)
                   {
-                    saveField.Value = WebUtil.RemoveAllScripts(saveField.Value);
+                    //saveField.Value = WebUtil.RemoveAllScripts(saveField.Value);
+                    saveField.Value = WebUtil.RemoveAllScripts(saveField.Value.Replace("‘", "&lsquo;").Replace("’", "&rsquo;"));
                   }
                   if (Save.NeedsHtmlTagEncode(saveField))
                   {
