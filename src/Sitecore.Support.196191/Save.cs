@@ -48,10 +48,14 @@ namespace Sitecore.Support.Pipelines.Save
               {
                 if (!string.IsNullOrEmpty(saveField.Value))
                 {
-                  if (field.TypeKey == "rich text" && Settings.HtmlEditor.RemoveScripts)
+                  if (field.TypeKey == "rich text")
                   {
-                    //saveField.Value = WebUtil.RemoveAllScripts(saveField.Value);
-                    saveField.Value = WebUtil.RemoveAllScripts(saveField.Value.Replace("‘", "&lsquo;").Replace("’", "&rsquo;"));
+                    saveField.Value = saveField.Value.Replace("‘", "&lsquo;").Replace("’", "&rsquo;")
+                      .Replace("’", "&rsquo;").Replace("“", "&ldquo;").Replace("”", "&rdquo;").Replace("„", "&bdquo;");
+                    if (Settings.HtmlEditor.RemoveScripts)
+                    {
+                      saveField.Value = WebUtil.RemoveAllScripts(saveField.Value);
+                    }
                   }
                   if (Save.NeedsHtmlTagEncode(saveField))
                   {
